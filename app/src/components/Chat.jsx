@@ -1,18 +1,17 @@
 import "../styles/Chat.css";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { ref, push, onValue } from "firebase/database";
-import { useNavigate } from 'react-router-dom';
-import { logout } from '../store/authSlice';
-import MyButton from './UI/button/MyButton';
-
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store/authSlice";
+import MyButton from "./UI/button/MyButton";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   console.log("Chat loaded");
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { username } = useSelector((state) => state.auth);
 
@@ -40,28 +39,30 @@ const dispatch = useDispatch();
     }
   };
 
-const handleLogout = () => {
+  const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <div className="chat-container">
-    <div className="chat-header">
+      <div className="chat-header">
+        <h1 className="chat-title">Realtime Chat</h1>
+        <p>{username}</p>
 
-      <h1 className="chat-title">Realtime Chat</h1>
-    <p>{username}</p>
-
-      <MyButton onClick={handleLogout}>Log out</MyButton>
-    </div>
+        <MyButton onClick={handleLogout}>Log out</MyButton>
+      </div>
       <div className="chat-messages scrollable">
         {messages.map((msg, index) => (
-          <div key={index} className="chat-message">
+          <div className={`message-wrapper ${
+              msg.sender === username ? "own-message" : ""
+            }`}
+          ><div key={index} className={`chat-message`}>
             <div className="sender">{msg.sender}</div>
             <div className="msg-text">{msg.text}</div>
           </div>
+          </div>
         ))}
-        
       </div>
       <div className="chat-input-area">
         <div className="chat-input-container">

@@ -62,6 +62,15 @@ body, html {
     color: white;
 }
 
+.message-wrapper {
+    display: flex;
+    
+}
+
+.own-message {
+justify-content: flex-end;
+}
+
 .sender {
     color: aqua;
 }
