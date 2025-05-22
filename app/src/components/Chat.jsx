@@ -1,13 +1,18 @@
 import "../styles/Chat.css";
-
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { ref, push, onValue } from "firebase/database";
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../store/authSlice';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   console.log("Chat loaded");
+const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { username } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // при загрузке чата
@@ -32,9 +37,16 @@ function Chat() {
     }
   };
 
+const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
+
   return (
     <div className="chat-container">
+    <p>{username}</p>
       <h1 className="chat-title">Realtime Chat</h1>
+      <button onClick={handleLogout}>Log out</button>
       <div className="chat-messages scrollable">
         {messages.map((msg, index) => (
           <div key={index} className="chat-message">
