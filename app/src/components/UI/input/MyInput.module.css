@@ -1,0 +1,11 @@
+.myInput {
+    padding: 10px;
+    border: teal 2px solid;
+    background-color: #fff;
+    width: 100%;
+box-sizing: border-box;
+}
+
+.myInput:focus {
+    outline: none;
+}

@@ -3,6 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../store/authSlice';
 import { useState } from 'react';
+import MyButton from './UI/button/MyButton';
+import MyInput from './UI/input/MyInput';
+
+import '../styles/Login.css'
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -18,13 +22,12 @@ function Login() {
 
   return (
     <div className="Login">
-      <input
-        type="text"
+      <MyInput
         placeholder="your name"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
+      <MyButton onClick={handleLogin}>Login</MyButton>
     </div>
   );
 }

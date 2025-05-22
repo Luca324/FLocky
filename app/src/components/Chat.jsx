@@ -5,6 +5,8 @@ import { db } from "../firebase";
 import { ref, push, onValue } from "firebase/database";
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../store/authSlice';
+import MyButton from './UI/button/MyButton';
+
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -44,9 +46,13 @@ const handleLogout = () => {
 
   return (
     <div className="chat-container">
-    <p>{username}</p>
+    <div className="chat-header">
+
       <h1 className="chat-title">Realtime Chat</h1>
-      <button onClick={handleLogout}>Log out</button>
+    <p>{username}</p>
+
+      <MyButton onClick={handleLogout}>Log out</MyButton>
+    </div>
       <div className="chat-messages scrollable">
         {messages.map((msg, index) => (
           <div key={index} className="chat-message">
