@@ -1,0 +1,137 @@
+:root {
+    --scroll-color: rgba(255, 255, 255, .15);
+    --dark-background: rgba(33, 45, 59, 255);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Убираем скролл всей страницы */
+}
+
+.chat-container {
+    max-width: 100%;
+    height: 100vh; /* Занимаем всю высоту окна */
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Учитываем padding в общей высоте */
+}
+
+.chat-title {
+    font-size: 1rem;
+    flex-shrink: 0; /* Запрещаем сжатие заголовка */
+}
+
+.chat-messages {
+    padding: 0.5rem;
+    flex-grow: 1; /* Занимаем все доступное пространство */
+    overflow-y: auto;
+    background-color: var(--dark-background);
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    scrollbar-width: thin; /* Для Firefox */
+    scrollbar-color: var(--scroll-color) transparent;
+}
+
+/* Стили скроллбара для сообщений */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-color);
+    border-radius: 3px;
+}
+
+.chat-message {
+    word-break: break-word;
+    background-color: rgba(68, 116, 138, 255);
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 5px;
+    color: white;
+}
+
+.sender {
+    color: aqua;
+}
+
+.chat-input-area {
+    flex-shrink: 0; /* Запрещаем сжатие области ввода */
+    background-color: rgb(59 70 83);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    position: sticky;
+    bottom: 10px;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 0.5rem;
+    min-height: 44px;
+    align-items: flex-end;
+}
+
+.chat-input-wrapper {
+    flex-grow: 1;
+    position: relative;
+    min-height: 32px;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.chat-input {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-y: hidden;
+    min-height: 32px;
+    max-height: 200px;
+}
+
+.chat-send-button {
+    color: white;
+    border: none;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    min-width: 28px;
+    height: 28px;
+    display: flex;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: #3367d6;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+    margin-bottom: 2px;
+}
+
+.chat-send-button:hover {
+    background-color: #5882dc;
+}
+
+/* Стили для скроллбара поля ввода */
+.chat-input-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-input-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
