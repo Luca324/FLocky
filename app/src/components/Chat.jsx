@@ -32,6 +32,7 @@ const dispatch = useDispatch();
   const sendMessage = async () => {
     if (input.trim()) {
       await push(ref(db, "messages"), {
+        sender: username,
         text: input,
         timestamp: Date.now(),
       });
@@ -56,7 +57,7 @@ const handleLogout = () => {
       <div className="chat-messages scrollable">
         {messages.map((msg, index) => (
           <div key={index} className="chat-message">
-            <div className="sender">Sender</div>
+            <div className="sender">{msg.sender}</div>
             <div className="msg-text">{msg.text}</div>
           </div>
         ))}
