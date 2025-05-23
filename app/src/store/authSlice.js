@@ -6,6 +6,7 @@ const authSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     username: null,
+    lastChatId: 1747987810015
   },
   reducers: {
     login: (state, action) => {
@@ -16,8 +17,14 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.username = null;
     },
+    setLastChat: (state, action) => {
+      state.lastChatId = action.payload;
+    },
+    resetLastChat: (state) => {
+      state.lastChatId = 'default';
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setLastChat, resetLastChat  } = authSlice.actions;
 export default authSlice.reducer;

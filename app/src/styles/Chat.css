@@ -10,16 +10,28 @@ body, html {
     overflow: hidden; /* Убираем скролл всей страницы */
 }
 
+.Chat {
+    display:flex;
+}
+
+.chats-contaiter {
+    width: 200px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .chat-container {
-    max-width: 100%;
-    height: 100vh; /* Занимаем всю высоту окна */
-    margin: 0 auto;
+    width: -webkit-fill-available;
+    height: 100vh;
+    margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; /* Учитываем padding в общей высоте */
+    box-sizing: border-box;
 }
+
 .chat-header {
     display:flex;
     column-gap: 30px;
