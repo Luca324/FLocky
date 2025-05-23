@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { logout, setLastChat } from "../store/authSlice";
 import MyButton from "./UI/button/MyButton";
 import MyInput from "./UI/input/MyInput";
+import Message from "./UI/message/Message";
+import arrow from '../img/arrow.svg'
 
 function Chat() {
   const [chats, setChats] = useState([]);
@@ -18,38 +20,61 @@ function Chat() {
   const [messagesRef, setMessagesRef] = useState(
     ref(db, "chats/" + lastChatId + "/messages")
   );
+  const [currentChat, setCurrentChat] = useState(null);
+
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    // при загрузке чата
     const chatsRef = ref(db, "chats");
 
-    const unsubscribe = onValue(chatsRef, (snapshot) => {
+    const unsubscribeChats = onValue(chatsRef, (snapshot) => {
       const chatsData = snapshot.val();
-      console.log("Data from Firebase:", chatsData);
+      console.log("chatsData", chatsData);
       const loadedChats = chatsData ? Object.values(chatsData) : [];
       setChats(loadedChats);
     });
 
-    onValue(messagesRef, (snapshot) => {
-      const loadedMessages = snapshot.val();
-      console.log("messages Firebase:", loadedMessages);
-      setMessages(loadedMessages || []);
-    });
-
+    // Открываем чат при загрузке
     openChat(lastChatId);
 
-    return () => unsubscribe();
-  }, []);
+    return () => {
+      unsubscribeChats();
+      // Отписываемся от старых сообщений при размонтировании
+      if (messagesRef) {
+        onValue(messagesRef, () => {}, { onlyOnce: true });
+      }
+    };
+  }, []); // Зависимости пустые - выполняется только при монтировании
+
+  // Отдельный эффект для подписки на сообщения текущего чата
+  useEffect(() => {
+    if (!currentChat) return;
+
+    const messagesRef = ref(db, `chats/${currentChat.chatId}/messages`);
+    const unsubscribeMessages = onValue(messagesRef, (snapshot) => {
+      const loadedMessages = snapshot.val();
+      console.log("loadedMessages", loadedMessages);
+      setMessages(loadedMessages ? Object.values(loadedMessages) : []);
+    });
+
+    return () => unsubscribeMessages();
+  }, [currentChat]);
 
   const openChat = (id) => {
-    console.log("opening chat...", id);
-    dispatch(setLastChat(id));
-    setMessagesRef(ref(db, "chats/" + lastChatId + "/messages"));
+    console.log("opening chat", id);
+    const chat = chats.find((c) => c.chatId === id);
+    if (chat) {
+      setCurrentChat(chat);
+      console.log("current chat", chat);
+      console.log("messages", chat.messages);
+      dispatch(setLastChat(id));
+    }
   };
 
   const sendMessage = async () => {
+    console.log("sending message...");
     if (messageInput.trim()) {
+      console.log("lastChatId", lastChatId);
       await push(ref(db, "chats/" + lastChatId + "/messages"), {
         sender: username,
         text: messageInput,
@@ -85,13 +110,9 @@ function Chat() {
         <div className="chats">
           {chats.map((chat, index) => (
             <div className="chat-item">
-              <button onClick={
-                () => openChat(chat.chatId)
-              }>
-<h3>{chat.name}</h3>
-              <p>{chat.chatId}</p>
+              <button onClick={() => openChat(chat.chatId)}>
+                <h3>{chat.name}</h3>
               </button>
-              
             </div>
           ))}
         </div>
@@ -112,24 +133,36 @@ function Chat() {
       </div>
       <div className="chat-container">
         <div className="chat-header">
-          <h1 className="chat-title">Realtime Chat</h1>
-          <p>{username}</p>
+          <h1 className="chat-title">
+            {currentChat ? currentChat.name : "Select a chat"}
+          </h1>
+          <p> Вы: {username}</p>
 
           <MyButton onClick={handleLogout}>Log out</MyButton>
         </div>
         <div className="chat-messages scrollable">
-          {messages.map((msg, index) => (
-            <div
-              className={`message-wrapper ${
-                msg.sender === username ? "own-message" : ""
-              }`}
-            >
-              <div key={index} className={`chat-message`}>
-                <div className="sender">{msg.sender}</div>
-                <div className="msg-text">{msg.text}</div>
-              </div>
-            </div>
-          ))}
+          {currentChat
+            ? messages
+              ? Object.values(messages).map((msg, index, arr) => {
+                  const currentDate = new Date(msg.timestamp).toDateString();
+                  const prevDate =
+                    index > 0
+                      ? new Date(arr[index - 1].timestamp).toDateString()
+                      : null;
+
+                  const isNewDay = currentDate !== prevDate;
+
+                  return (
+                    <Message
+                      key={msg.timestamp}
+                      msg={msg}
+                      username={username}
+                      isNewDay={isNewDay}
+                    ></Message>
+                  );
+                })
+              : "empty"
+            : "empty"}
         </div>
         <div className="chat-input-area">
           <div className="chat-input-container">
@@ -154,32 +187,7 @@ function Chat() {
               />
             </div>
             <button className="chat-send-button" onClick={sendMessage}>
-              <svg
-                width="14"
-                height="16"
-                viewBox="0 0 14 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M7 16c-.595 0-1.077-.462-1.077-1.032V1.032C5.923.462 6.405 0 7 0s1.077.462 1.077 1.032v13.936C8.077 15.538 7.595 16 7 16z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M.315 7.44a1.002 1.002 0 0 1 0-1.46L6.238.302a1.11 1.11 0 0 1 1.523 0c.421.403.421 1.057 0 1.46L1.838 7.44a1.11 1.11 0 0 1-1.523 0z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13.685 7.44a1.11 1.11 0 0 1-1.523 0L6.238 1.762a1.002 1.002 0 0 1 0-1.46 1.11 1.11 0 0 1 1.523 0l5.924 5.678c.42.403.42 1.056 0 1.46z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+              <img src={arrow} alt="" />
             </button>
           </div>
         </div>

@@ -6,7 +6,7 @@ const authSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     username: null,
-    lastChatId: 1747987810015
+    lastChatId: null
   },
   reducers: {
     login: (state, action) => {

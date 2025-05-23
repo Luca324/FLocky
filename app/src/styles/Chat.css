@@ -8,6 +8,7 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden; /* Убираем скролл всей страницы */
+    background-color: var(--dark-background);
 }
 
 .Chat {
