@@ -8,11 +8,11 @@ import { logout, setLastChat } from "../store/authSlice";
 import MyButton from "./UI/button/MyButton";
 import MyInput from "./UI/input/MyInput";
 import Message from "./UI/message/Message";
-import arrow from "../img/arrow.svg";
 import logOutImg from "../img/Log out.svg";
 import defaultChatImg from "../img/default-chat-img.png";
 import defaultProfileImg from "../img/default-profile-img.png";
 import humburger from "../img/humburger.svg";
+import MyTextarea from "./UI/textarea/MyTextarea";
 
 function Chat() {
   const [chats, setChats] = useState([]);
@@ -192,31 +192,11 @@ function Chat() {
           <div ref={messagesEndRef} />
         </div>
         <div className="chat-input-area">
-          <div className="chat-input-container">
-            <div className="chat-input-wrapper">
-              <textarea
-                className="chat-input"
-                value={messageInput}
-                onChange={(e) => {
-                  setMessageInput(e.target.value);
-                  // Автоматическое изменение высоты
-                  e.target.style.height = "auto";
-                  e.target.style.height = `${Math.min(
-                    e.target.scrollHeight,
-                    200
-                  )}px`;
-                }}
-                placeholder="Type your message..."
-                onKeyPress={(e) =>
-                  e.key === "Enter" && !e.shiftKey && sendMessage()
-                }
-                rows="1" /* Начальное количество строк */
-              />
-            </div>
-            <button className="chat-send-button" onClick={sendMessage}>
-              <img src={arrow} alt="" />
-            </button>
-          </div>
+          <MyTextarea
+            value={messageInput}
+            setValue={setMessageInput}
+            action={sendMessage}
+          ></MyTextarea>
         </div>
       </div>
     </div>
