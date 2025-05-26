@@ -11,8 +11,8 @@
     position: relative;
     min-height: 32px;
     max-height: 200px;
-    overflow-y: auto;
-    scrollbar-width: thin;
+    /* overflow-y: auto; */
+    /* scrollbar-width: thin; */
 }
 
 .input {
@@ -32,6 +32,7 @@
     overflow-y: hidden;
     min-height: 32px;
     max-height: 200px;
+    overflow-y: scroll !important;
 }
 
 .sendButton {

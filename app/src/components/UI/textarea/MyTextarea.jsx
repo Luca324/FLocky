@@ -6,7 +6,7 @@ function MyTextarea({ value, setValue, action }) {
     <div className={classes.MyTextarea}>
       <div className={classes.inputWrapper}>
         <textarea
-          className={classes.input}
+          className={`scrollable ${classes.input}`}
           value={value}
           onChange={(e) => {
             setValue(e.target.value);
