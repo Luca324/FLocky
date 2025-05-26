@@ -1,6 +1,6 @@
 import "../styles/Chat.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
 import { ref, push, onValue, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,10 @@ import MyButton from "./UI/button/MyButton";
 import MyInput from "./UI/input/MyInput";
 import Message from "./UI/message/Message";
 import arrow from "../img/arrow.svg";
-import logOutImg from "../img/Log out.svg"
-import defaultChatImg from "../img/default-chat-img.png"
-import defaultProfileImg from "../img/default-profile-img.png"
-import humburger from "../img/humburger.svg"
+import logOutImg from "../img/Log out.svg";
+import defaultChatImg from "../img/default-chat-img.png";
+import defaultProfileImg from "../img/default-profile-img.png";
+import humburger from "../img/humburger.svg";
 
 function Chat() {
   const [chats, setChats] = useState([]);
@@ -27,6 +27,7 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState(null);
 
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const chatsRef = ref(db, "chats");
@@ -103,6 +104,11 @@ function Chat() {
     }
   };
 
+  useEffect(() => {
+    // Прокрутка к последнему сообщению при изменении messages
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [messages]);
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
@@ -116,18 +122,18 @@ function Chat() {
             <div className="profile__left">
               <img className="profile__img" src={defaultProfileImg} alt="" />
               <span>{username}</span>
-              </div>
-              <button  onClick={handleLogout}>
-                <img className="logout__img" src={logOutImg} alt="" />
-                </button>
-</div>
+            </div>
+            <button onClick={handleLogout}>
+              <img className="logout__img" src={logOutImg} alt="" />
+            </button>
+          </div>
           {chats.map((chat, index) => (
             <div className="chats__item">
               <button
                 className="chats__button"
                 onClick={() => openChat(chat.chatId)}
               >
-              <img className="chats__img" src={defaultChatImg} alt="" />
+                <img className="chats__img" src={defaultChatImg} alt="" />
                 <span className="chats__name">{chat.name}</span>
               </button>
             </div>
@@ -150,15 +156,14 @@ function Chat() {
       <div className="chat-container">
         <div className="chat-header">
           <div className="chat-header__left">
-                <img className="chats__img" src={defaultChatImg} alt="" />
-          <span className="chat-title">
-            {currentChat ? currentChat.name : "Select a chat"}
-          </span>
-</div>
-<button className="opn-settings">
-                <img className="opn-settings__img" src={humburger} alt="" />
-  
-</button>
+            <img className="chats__img" src={defaultChatImg} alt="" />
+            <span className="chat-title">
+              {currentChat ? currentChat.name : "Select a chat"}
+            </span>
+          </div>
+          <button className="opn-settings">
+            <img className="opn-settings__img" src={humburger} alt="" />
+          </button>
         </div>
         <div className="chat-messages scrollable">
           {currentChat
@@ -183,6 +188,8 @@ function Chat() {
                 })
               : "empty"
             : "empty"}
+          {/* Элемент-заглушка для скролла в конец */}
+          <div ref={messagesEndRef} />
         </div>
         <div className="chat-input-area">
           <div className="chat-input-container">
