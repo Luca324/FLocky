@@ -1,11 +1,23 @@
 import classes from "./MyTextarea.module.css";
 import arrow from "./arrow.svg";
+import { useEffect, useRef } from "react";
 
 function MyTextarea({ value, setValue, action }) {
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    // Автоматическое изменение высоты
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = `${Math.min(
+      textareaRef.current.scrollHeight,
+      200
+    )}px`;
+  }, [value]);
   return (
     <div className={classes.MyTextarea}>
       <div className={classes.inputWrapper}>
         <textarea
+          ref={textareaRef}
           className={`scrollable ${classes.input}`}
           value={value}
           onChange={(e) => {
