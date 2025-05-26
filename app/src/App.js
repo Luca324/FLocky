@@ -10,22 +10,23 @@ import { useSelector } from 'react-redux';
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={
+      <Provider store={store}>
+        <div className="App">
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={
                 <RequireAuth>
                   <Chat />
                 </RequireAuth>
               }
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </HashRouter>
-      </div>
-    </Provider>
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </HashRouter>
+        </div>
+      </Provider>
+
   );
 }
 
