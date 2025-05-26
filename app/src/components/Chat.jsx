@@ -8,7 +8,11 @@ import { logout, setLastChat } from "../store/authSlice";
 import MyButton from "./UI/button/MyButton";
 import MyInput from "./UI/input/MyInput";
 import Message from "./UI/message/Message";
-import arrow from '../img/arrow.svg'
+import arrow from "../img/arrow.svg";
+import logOutImg from "../img/Log out.svg"
+import defaultChatImg from "../img/default-chat-img.png"
+import defaultProfileImg from "../img/default-profile-img.png"
+import humburger from "../img/humburger.svg"
 
 function Chat() {
   const [chats, setChats] = useState([]);
@@ -105,40 +109,56 @@ function Chat() {
   };
 
   return (
-    <div className="Chat">
-      <div className="chats-contaiter">
+    <div className="chat">
+      <div className="chats__container">
         <div className="chats">
+          <div className="profile">
+            <div className="profile__left">
+              <img className="profile__img" src={defaultProfileImg} alt="" />
+              <span>{username}</span>
+              </div>
+              <button  onClick={handleLogout}>
+                <img className="logout__img" src={logOutImg} alt="" />
+                </button>
+</div>
           {chats.map((chat, index) => (
-            <div className="chat-item">
-              <button onClick={() => openChat(chat.chatId)}>
-                <h3>{chat.name}</h3>
+            <div className="chats__item">
+              <button
+                className="chats__button"
+                onClick={() => openChat(chat.chatId)}
+              >
+              <img className="chats__img" src={defaultChatImg} alt="" />
+                <span className="chats__name">{chat.name}</span>
               </button>
             </div>
           ))}
         </div>
-        <div className="create-chat-wrapper">
-          <p>Create your own chat</p>
+
+        <div className="create-chat">
+          <p className="create-chat__title">Create your own chat</p>
           <MyInput
-            className="create-chat-input"
+            className="create-chat__input"
             placeholder="Your chat's name"
             value={newChatInput}
-            onChange={(e) => {
-              setNewChatInput(e.target.value);
-            }}
-          ></MyInput>
-          <MyButton className="create-chat" onClick={createChat}>
+            onChange={(e) => setNewChatInput(e.target.value)}
+          />
+          <MyButton className="create-chat__button" onClick={createChat}>
             Create chat
           </MyButton>
         </div>
       </div>
       <div className="chat-container">
         <div className="chat-header">
-          <h1 className="chat-title">
+          <div className="chat-header__left">
+                <img className="chats__img" src={defaultChatImg} alt="" />
+          <span className="chat-title">
             {currentChat ? currentChat.name : "Select a chat"}
-          </h1>
-          <p> Вы: {username}</p>
-
-          <MyButton onClick={handleLogout}>Log out</MyButton>
+          </span>
+</div>
+<button className="opn-settings">
+                <img className="opn-settings__img" src={humburger} alt="" />
+  
+</button>
         </div>
         <div className="chat-messages scrollable">
           {currentChat

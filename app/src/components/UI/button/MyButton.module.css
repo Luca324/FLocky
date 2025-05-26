@@ -1,12 +1,12 @@
 .myBtn {
     padding: 10px;
-    border: teal 2px solid;
-    color: teal;
+    border: var(--dark-accent) 2px solid;
+    color: var(--dark-accent);
     background-color: #fff;
     width: 100%;
 }
 
 .myBtn:hover {
-    background-color: teal;
+    background-color: var(--dark-accent);
     color: #fff;
 }

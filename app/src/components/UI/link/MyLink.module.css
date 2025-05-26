@@ -1,0 +1,10 @@
+.myLink {
+    padding: 10px;
+    color: var(--dark-accent);
+    background-color: transparent;
+    width: 100%;
+}
+
+.myLink:hover {
+    text-decoration: underline;
+}

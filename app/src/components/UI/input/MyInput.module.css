@@ -1,6 +1,6 @@
 .myInput {
     padding: 10px;
-    border: teal 2px solid;
+    border: var(--dark-accent) 2px solid;
     background-color: #fff;
     width: 100%;
 box-sizing: border-box;

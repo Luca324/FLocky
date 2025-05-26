@@ -1,27 +1,151 @@
 :root {
     --scroll-color: rgba(255, 255, 255, .15);
-    --dark-background: rgba(33, 45, 59, 255);
+    --light-background: #EDE2E0;
+    --light-accent: #B27F8C;
+    --dark-accent: #7C1A33;
+    --light-font: white;
+    --dark-font: black;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* Убираем скролл всей страницы */
-    background-color: var(--dark-background);
+    overflow: hidden;
+    background-color: var(--light-background);
 }
 
-.Chat {
-    display:flex;
+button {
+    background-color: transparent;
+    border: none;
 }
 
-.chats-contaiter {
-    width: 200px;
-    display:flex;
+/* Основной блок чата */
+.chat {
+    display: flex;
+    height: 100vh;
+}
+
+/* Контейнер чата */
+.chats__container {
+    width: 300px;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-right: 3px var(--dark-accent) solid;
+    padding: 10px;
 }
 
+/* Блок списка чатов */
+.chats {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.chats::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chats::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-color);
+    border-radius: 3px;
+}
+
+.profile {
+    width: 100%;
+    column-gap: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--dark-font);
+}
+
+.profile__left {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Элементы списка чатов */
+.chats__item {
+    width: 100%;
+    background-color: var(--dark-accent);
+    border-bottom-left-radius: 18px;
+    border-top-left-radius: 18px;
+}
+
+.chats__button {
+    width: 100%;
+    column-gap: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--light-font);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.chats__img,
+.profile__img {
+    width: 33px;
+}
+.logout__img {
+
+    width: 25px;
+}
+.chats__button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chats__name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Блок создания чата */
+.create-chat {
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.create-chat__title {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: var(--dark-font);
+}
+
+.create-chat__input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.create-chat__button {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--dark-accent);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.create-chat__button:hover {
+    background-color: #9c6b7a;
+}
+
+/* Область сообщений (оставлено как было, но можно переименовать по БЭМ) */
 .chat-container {
     width: -webkit-fill-available;
     height: 100vh;
@@ -34,32 +158,46 @@ body, html {
 }
 
 .chat-header {
-    display:flex;
-    column-gap: 30px;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: var(--dark-accent);
+    color: var(--light-font);
+    padding: 4px;
+    border-radius: 4px;
+    border-bottom-left-radius: 18px;
+    border-top-left-radius: 18px;
 }
+
+.chat-header__left {
+    display: flex;
+    column-gap: 6px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .chat-title {
     font-size: 1rem;
-    flex-shrink: 0; /* Запрещаем сжатие заголовка */
+    flex-shrink: 0;
 }
 
 .chat-messages {
     padding: 0.5rem;
-    flex-grow: 1; /* Занимаем все доступное пространство */
+    flex-grow: 1;
     overflow-y: auto;
-    background-color: var(--dark-background);
-    border-radius: 0.25rem;
+    background-color: var(--light-background);
+    border-radius: 0 0 0.25rem 0.25rem;
     display: flex;
     flex-direction: column;
     row-gap: 3px;
-    scrollbar-width: thin; /* Для Firefox */
+    scrollbar-width: thin;
     scrollbar-color: var(--scroll-color) transparent;
 }
 
-/* Стили скроллбара для сообщений */
 .chat-messages::-webkit-scrollbar {
     width: 6px;
 }
+
 .chat-messages::-webkit-scrollbar-thumb {
     background-color: var(--scroll-color);
     border-radius: 3px;
@@ -67,7 +205,7 @@ body, html {
 
 .chat-message {
     word-break: break-word;
-    background-color: rgba(68, 116, 138, 255);
+    background-color: var(--light-accent);
     display: inline-block;
     width: fit-content;
     padding: 5px 8px;
@@ -75,22 +213,21 @@ body, html {
     color: white;
 }
 
+.date-divider {
+    text-align: center;
+    color: var(--dark-font)
+}
+
 .message-wrapper {
     display: flex;
-    
 }
 
 .own-message {
-justify-content: flex-end;
+    justify-content: flex-end;
 }
-
-.sender {
-    color: aqua;
-}
-
 .chat-input-area {
-    flex-shrink: 0; /* Запрещаем сжатие области ввода */
-    background-color: rgb(59 70 83);
+    flex-shrink: 0;
+    background-color: var(--dark-accent);
     padding: 0.5rem;
     border-radius: 0.25rem;
     position: sticky;
@@ -153,10 +290,10 @@ justify-content: flex-end;
     background-color: #5882dc;
 }
 
-/* Стили для скроллбара поля ввода */
 .chat-input-wrapper::-webkit-scrollbar {
     width: 6px;
 }
+
 .chat-input-wrapper::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 3px;

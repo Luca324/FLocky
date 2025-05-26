@@ -3,9 +3,16 @@
     --dark-background: rgba(33, 45, 59, 255);
 }
 
+* {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+
 .App {
-    background-color: var(--dark-background);
     color: white;
+}
+
+button {
+    padding: 0;
 }
 
 .scrollable {

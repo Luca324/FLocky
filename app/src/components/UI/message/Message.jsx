@@ -4,7 +4,6 @@ function Message({ msg, isNewDay, username, ...props }) {
   const time = new Date(msg.timestamp);
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
-  const seconds = time.getSeconds().toString().padStart(2, "0");
 
   return (
     <>
@@ -22,11 +21,11 @@ function Message({ msg, isNewDay, username, ...props }) {
           msg.sender === username ? "own-message" : ""
         }`} {...props}
       >
-        <div className={`chat-message`}>
-          <div className="sender">{msg.sender}</div>
+        <div className={classes.chatMessage}>
+          <div className={classes.sender}>{msg.sender}</div>
           <div className="msg-text">{msg.text}</div>
           <div className={classes.msgTime}>
-            {hours}:{minutes}:{seconds}
+            {hours}:{minutes}
           </div>
         </div>
       </div>

@@ -1,5 +1,28 @@
+/* :root {
+    --scroll-color: rgba(255, 255, 255, .15);
+    --light-background: #EDE2E0;
+    --light-accent: #B27F8C;
+    --dark-accent: #7C1A33;
+    --dark-accent-font: white;
+}
+ */
+
+.chatMessage {
+    background-color: var(--light-accent);
+    padding: 4px;
+    border-radius: 15px;
+    max-width: 90%;
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
 .msgTime {
-    font-size: smaller;
-    color: #d0d0d0;
+    font-size: small;
+    color: #fff;
     text-align: right;
+    margin-left: 10px;
+}
+
+.sender {
+    color: #FFFD8C;
 }
