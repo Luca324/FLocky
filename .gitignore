@@ -10,6 +10,7 @@ app/node_modules/
 
 # Production build
 app/build/
+app/dist/
 
 # IDEs and editors
 app/.idea

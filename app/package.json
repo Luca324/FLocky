@@ -1,14 +1,25 @@
 {
-  "name": "app",
+  "name": "flocky",
   "version": "0.1.0",
   "private": true,
+  "description": "Realtime chat app with Electron and React",
+  "author": "Tatyana Mosolova <tanya.mosol@yandex.ru>",
+  "main": "electron.js",
+  "homepage": "./",
+  "productName": "Flocky",
+  "scripts": {
+    "start": "set PORT=3006 && react-scripts start",
+    "build": "react-scripts build",
+    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && electron .\"",
+    "preelectron:build": "npm run build",
+    "electron:build": "npm run preelectron:build && electron-builder"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "electron": "^36.3.1",
     "firebase": "^11.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -18,10 +29,27 @@
     "rsuite": "^5.81.0",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "set PORT=3006 && react-scripts start",
-    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && electron .\"",
-    "electron:build": "npm run build && electron-builder"
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^36.3.1",
+    "electron-builder": "^26.0.12",
+    "electron-is-dev": "^3.0.1",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.flocky.chat",
+    "productName": "Flocky",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "build/**/*",
+      "electron.js",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "asar": true
   },
   "eslintConfig": {
     "extends": [
@@ -40,13 +68,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "main": "electron/main.js",
-  "productName": "Flocky",
-  "devDependencies": {
-    "concurrently": "^9.1.2",
-    "electron-builder": "^26.0.12",
-    "electron-is-dev": "^3.0.1",
-    "wait-on": "^8.0.3"
   }
 }

@@ -1,3 +1,5 @@
+console.log("Creating main window...");
+
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') // Перенесем вверх
@@ -20,7 +22,8 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3006')
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../build/index.html'))
+    mainWindow.loadURL(`file://${__dirname}/../build/index.html`);
+
   }
 
   mainWindow.on('closed', () => (mainWindow = null))
