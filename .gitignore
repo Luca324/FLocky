@@ -1,1 +1,21 @@
-app/src/firebase.js
+# Logs
+app/logs/
+app/*.log
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+
+# Dependencies
+app/node_modules/
+
+# Production build
+app/build/
+
+# IDEs and editors
+app/.idea
+app/.vscode
+
+# Environment files 
+app/.env
+app/.env.local
+app/.env.*.local
