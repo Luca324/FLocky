@@ -42,7 +42,7 @@
     ]
   },
   "main": "electron/main.js",
-  "productName": "Пример приложения Electron Create React",
+  "productName": "Flocky",
   "devDependencies": {
     "concurrently": "^9.1.2",
     "electron-builder": "^26.0.12",
