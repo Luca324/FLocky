@@ -118,15 +118,7 @@ function Chat() {
     <div className="chat">
       <div className="chats__container">
         <div className="chats">
-          <div className="profile">
-            <div className="profile__left">
-              <img className="profile__img" src={defaultProfileImg} alt="" />
-              <span>{username}</span>
-            </div>
-            <button onClick={handleLogout}>
-              <img className="logout__img" src={logOutImg} alt="" />
-            </button>
-          </div>
+          
           {chats.map((chat, index) => (
             <div className="chats__item">
               <button
@@ -139,9 +131,18 @@ function Chat() {
             </div>
           ))}
         </div>
-
-        <div className="create-chat">
-          <p className="create-chat__title">Create your own chat</p>
+<div className="profile">
+            <div className="profile__left">
+              <img className="profile__img" src={defaultProfileImg} alt="" />
+              <span>{username}</span>
+            </div>
+            <button onClick={handleLogout}>
+              <img className="logout__img" src={logOutImg} alt="" />
+            </button>
+          </div>
+       
+      </div>
+       <div className="create-chat">
           <MyInput
             className="create-chat__input"
             placeholder="Your chat's name"
@@ -149,10 +150,9 @@ function Chat() {
             onChange={(e) => setNewChatInput(e.target.value)}
           />
           <MyButton className="create-chat__button" onClick={createChat}>
-            Create chat
+            Create
           </MyButton>
         </div>
-      </div>
       <div className="chat-container">
         <div className="chat-header">
           <div className="chat-header__left">

@@ -24,26 +24,25 @@ button {
 /* Основной блок чата */
 .chat {
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    height: calc(100vh - 100px);
 }
 
 /* Контейнер чата */
 .chats__container {
-    width: 300px;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    border-right: 3px var(--dark-accent) solid;
     padding: 10px;
 }
 
 /* Блок списка чатов */
 .chats {
     display: flex;
-    flex-direction: column;
     row-gap: 6px;
     overflow-y: auto;
     scrollbar-width: thin;
+    column-gap: 3px;
+     white-space: nowrap
 }
 
 .chats::-webkit-scrollbar {
@@ -55,28 +54,18 @@ button {
     border-radius: 3px;
 }
 
-.profile {
-    width: 100%;
-    column-gap: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--dark-font);
-}
-
-.profile__left {
-    display: flex;
-    column-gap: 4px;
-    align-items: center;
-    justify-content: flex-start;
-}
 
 /* Элементы списка чатов */
 .chats__item {
-    width: 100%;
+    width: -webkit-fill-available;
     background-color: var(--dark-accent);
-    border-bottom-left-radius: 18px;
-    border-top-left-radius: 18px;
+    border-radius: 18px;
+    padding-right:10px;
+    flex-grow: 1;
+    float:left;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis; /* при скрытии контента, который не влазит в нашу вкладку, красиво обрезать его и добавлять многоточие (...)*/
 }
 
 .chats__button {
@@ -89,6 +78,20 @@ button {
     border: none;
     cursor: pointer;
     transition: background-color 0.2s;
+}
+.profile {
+    column-gap: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--dark-font);
+}
+
+.profile__left {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .chats__img,
@@ -111,7 +114,7 @@ button {
 
 /* Блок создания чата */
 .create-chat {
-    padding: 15px;
+    display:flex;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
