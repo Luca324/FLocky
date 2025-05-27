@@ -45,6 +45,7 @@
   "productName": "Пример приложения Electron Create React",
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "electron-builder": "^26.0.12",
     "electron-is-dev": "^3.0.1",
     "wait-on": "^8.0.3"
   }
