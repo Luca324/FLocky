@@ -5,22 +5,19 @@ import { db } from "../firebase";
 import { ref, push, onValue, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { logout, setLastChat } from "../store/authSlice";
-import MyButton from "./UI/button/MyButton";
-import MyInput from "./UI/input/MyInput";
 import Message from "./UI/message/Message";
-import logOutImg from "../img/Log out.svg";
 import defaultChatImg from "../img/default-chat-img.png";
-import defaultProfileImg from "../img/default-profile-img.png";
 import humburger from "../img/humburger.svg";
 import MyTextarea from "./UI/textarea/MyTextarea";
+import ChatsList from "./UI/chatsList/ChatsList";
 
 function Chat() {
-  const [chats, setChats] = useState([]);
-  const [newChatInput, setNewChatInput] = useState("");
   const [messageInput, setMessageInput] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { username, lastChatId } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  
   const [messagesRef, setMessagesRef] = useState(
     ref(db, "chats/" + lastChatId + "/messages")
   );
@@ -30,22 +27,12 @@ function Chat() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const chatsRef = ref(db, "chats");
-
-    const unsubscribeChats = onValue(chatsRef, (snapshot) => {
-      const chatsData = snapshot.val();
-      console.log("chatsData", chatsData);
-      const loadedChats = chatsData ? Object.values(chatsData) : [];
-      setChats(loadedChats);
-    });
-
     // Открываем чат при загрузке
     openChat(lastChatId);
 
     return () => {
-      unsubscribeChats();
-      // Отписываемся от старых сообщений при размонтировании
       if (messagesRef) {
+        // Отписываемся от старых сообщений при размонтировании
         onValue(messagesRef, () => {}, { onlyOnce: true });
       }
     };
@@ -65,9 +52,7 @@ function Chat() {
     return () => unsubscribeMessages();
   }, [currentChat]);
 
-  const openChat = (id) => {
-    console.log("opening chat", id);
-    const chat = chats.find((c) => c.chatId === id);
+  const openChat = (chat, id) => {
     if (chat) {
       setCurrentChat(chat);
       console.log("current chat", chat);
@@ -89,70 +74,19 @@ function Chat() {
     }
   };
 
-  const createChat = async () => {
-    if (newChatInput.trim()) {
-      const chatId = Date.now();
-      set(ref(db, "chats/" + chatId), {
-        owner: username,
-        name: newChatInput,
-        chatId,
-        messages: [],
-      });
-      setNewChatInput("");
-
-      openChat(chatId);
-    }
-  };
-
   useEffect(() => {
     // Прокрутка к последнему сообщению при изменении messages
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
-
   return (
     <div className="chat">
-      <div className="chats__container">
-        <div className="chats">
-          <div className="profile">
-            <div className="profile__left">
-              <img className="profile__img" src={defaultProfileImg} alt="" />
-              <span>{username}</span>
-            </div>
-            <button onClick={handleLogout}>
-              <img className="logout__img" src={logOutImg} alt="" />
-            </button>
-          </div>
-          {chats.map((chat, index) => (
-            <div className="chats__item">
-              <button
-                className="chats__button"
-                onClick={() => openChat(chat.chatId)}
-              >
-                <img className="chats__img" src={defaultChatImg} alt="" />
-                <span className="chats__name">{chat.name}</span>
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <div className="create-chat">
-          <p className="create-chat__title">Create your own chat</p>
-          <MyInput
-            className="create-chat__input"
-            placeholder="Your chat's name"
-            value={newChatInput}
-            onChange={(e) => setNewChatInput(e.target.value)}
-          />
-          <MyButton className="create-chat__button" onClick={createChat}>
-            Create chat
-          </MyButton>
-        </div>
-      </div>
+      <ChatsList
+        username={username}
+        openChat={openChat}
+        dispatch={dispatch}
+        navigate={navigate}
+      />
       <div className="chat-container">
         <div className="chat-header">
           <div className="chat-header__left">

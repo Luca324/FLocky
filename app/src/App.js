@@ -6,38 +6,47 @@ import Login from './components/Login';
 import Register from './components/Register';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./store/authSlice";
 
 function App() {
   return (
-      <Provider store={store}>
-        <div className="App">
-          <HashRouter>
-            <Routes>
-              <Route path="/" element={
-                <RequireAuth>
-                  <Chat />
-                </RequireAuth>
-              }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </HashRouter>
-        </div>
-      </Provider>
+    <Provider store={store}>
+      <div className="App">
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={
+              <RequireAuth>
+                <Chat />
+              </RequireAuth>
+            }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </HashRouter>
+      </div>
+    </Provider>
 
   );
 }
 
 function RequireAuth({ children }) {
-  const isAuthenticated = useSelector((state) => state.auth).isAuthenticated || localStorage.getItem('authName')
+  const dispatch = useDispatch();
+  const username = localStorage.getItem('authName')
+  const isAuthenticated = useSelector((state) => state.auth).isAuthenticated
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (username) {
+    dispatch(login(username));
+
+    return children;
   }
 
-  return children;
+  if (isAuthenticated) {
+    return children;
+  }
+
+  return <Navigate to="/login" replace />;
 }
 
 export default App;
