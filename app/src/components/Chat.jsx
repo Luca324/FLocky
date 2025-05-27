@@ -10,6 +10,7 @@ import defaultChatImg from "../img/default-chat-img.png";
 import humburger from "../img/humburger.svg";
 import MyTextarea from "./UI/textarea/MyTextarea";
 import ChatsList from "./UI/chatsList/ChatsList";
+import ContextMenu from "./UI/contextmenu/ContextMenu";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -79,6 +80,37 @@ function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
 
+
+    const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (event) => {
+    event.preventDefault(); // Предотвращаем стандартное меню
+    setMenuPosition({ x: event.clientX, y: event.clientY });
+    setMenuVisible(true);
+    console.log('Правая кнопка нажата:', event.target);
+  };
+
+  const handleMenuItemSelect = (value) => {
+    console.log('Выбран пункт:', value);
+    setMenuVisible(false);
+  };
+
+  const handleOutsideClick = (event) => {
+    if (menuVisible && !event.target.closest('.context-menu')) {
+      setMenuVisible(false);
+    }
+  };
+
+ useEffect(() => {
+    if (menuVisible) {
+      document.addEventListener('click', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [menuVisible]);
   return (
     <div className="chat">
       <ChatsList
@@ -99,6 +131,12 @@ function Chat() {
             <img className="opn-settings__img" src={humburger} alt="" />
           </button>
         </div>
+       < ContextMenu
+        onSelect={handleMenuItemSelect}
+        visible={menuVisible}
+        position={menuPosition}
+        className="context-menu"
+      />
         <div className="chat-messages scrollable">
           {currentChat
             ? messages
@@ -117,6 +155,7 @@ function Chat() {
                       msg={msg}
                       username={username}
                       isNewDay={isNewDay}
+                       onContextMenu={handleContextMenu}
                     ></Message>
                   );
                 })
