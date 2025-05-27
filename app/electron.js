@@ -2,8 +2,7 @@ console.log("Creating main window...");
 
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
-const isDev = require('electron-is-dev') // Перенесем вверх
-
+const isDev = require('electron-is-dev')
 let mainWindow
 
 function createWindow() {
