@@ -31,7 +31,7 @@ function App() {
 }
 
 function RequireAuth({ children }) {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const isAuthenticated = useSelector((state) => state.auth).isAuthenticated || localStorage.getItem('authName')
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

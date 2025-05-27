@@ -12,10 +12,12 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isAuthenticated = true;
       state.username = action.payload;
+      localStorage.setItem('authName', state.username)
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.username = null;
+      localStorage.setItem('authName', null)
     },
     setLastChat: (state, action) => {
       state.lastChatId = action.payload;
