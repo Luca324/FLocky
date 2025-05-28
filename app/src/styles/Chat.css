@@ -73,6 +73,9 @@ button {
     justify-content: flex-start;
 }
 
+.search-wrapper {
+    display: flex;
+}
 /* Элементы списка чатов */
 .chats__item {
     width: 100%;

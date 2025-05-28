@@ -1,4 +1,4 @@
-import classes from "./ChatsList.module.css";
+import "./ChatsList.module.css";
 
 import { useEffect, useState, useRef } from "react";
 import { db } from "../../../firebase";
@@ -9,10 +9,12 @@ import defaultChatImg from "../../../img/default-chat-img.png";
 import MyButton from "../button/MyButton";
 import MyInput from "../input/MyInput";
 import logOutImg from "../../../img/Log out.svg";
+import searchImg from "../../../img/Search.svg"
 import defaultProfileImg from "../../../img/default-profile-img.png";
 
 function ChatsList({ username, openChat, dispatch, navigate }) {
   const [chats, setChats] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
   const [newChatInput, setNewChatInput] = useState("");
 
   useEffect(() => {
@@ -56,6 +58,10 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
     navigate("/login");
   };
 
+  const handleSearch = () => {
+
+  }
+
   return (
     <div className="chats__container">
       <div className="chats">
@@ -67,6 +73,14 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
           <button onClick={handleLogout}>
             <img className="logout__img" src={logOutImg} alt="" />
           </button>
+        </div>
+        <div className="search-wrapper">
+          <MyInput 
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search for polls"
+          ></MyInput>
+          <button className="search" onClick={handleSearch}><img src={searchImg} alt="" /></button>
         </div>
         {chats.map((chat, index) => (
           <>
