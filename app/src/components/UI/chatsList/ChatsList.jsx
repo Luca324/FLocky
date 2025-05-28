@@ -44,6 +44,7 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
       openChat(chatId);
     }
   };
+  
   const handleOpenChat = (id) => {
     console.log("opening chat", id);
     const chat = chats.find((c) => c.chatId === id);

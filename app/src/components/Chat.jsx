@@ -2,7 +2,7 @@ import "../styles/Chat.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
-import { ref, push, onValue, set } from "firebase/database";
+import { ref, push, onValue, remove } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { logout, setLastChat } from "../store/authSlice";
 import Message from "./UI/message/Message";
@@ -16,101 +16,107 @@ function Chat() {
   const [messageInput, setMessageInput] = useState("");
   const { username, lastChatId } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  
-  const [messagesRef, setMessagesRef] = useState(
-    ref(db, "chats/" + lastChatId + "/messages")
-  );
   const [currentChat, setCurrentChat] = useState(null);
-
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
+  // Состояние контекстного меню
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [menuTarget, setMenuTarget] = useState(null);
+
+  // Подписка на сообщения текущего чата
   useEffect(() => {
-    // Открываем чат при загрузке
-    openChat(lastChatId);
+    if (!lastChatId) return;
 
-    return () => {
-      if (messagesRef) {
-        // Отписываемся от старых сообщений при размонтировании
-        onValue(messagesRef, () => {}, { onlyOnce: true });
-      }
-    };
-  }, []); // Зависимости пустые - выполняется только при монтировании
-
-  // Отдельный эффект для подписки на сообщения текущего чата
-  useEffect(() => {
-    if (!currentChat) return;
-
-    const messagesRef = ref(db, `chats/${currentChat.chatId}/messages`);
+    const messagesRef = ref(db, `chats/${lastChatId}/messages`);
     const unsubscribeMessages = onValue(messagesRef, (snapshot) => {
       const loadedMessages = snapshot.val();
-      console.log("loadedMessages", loadedMessages);
-      setMessages(loadedMessages ? Object.values(loadedMessages) : []);
+      if (loadedMessages) {
+        // Сохраняем как массив объектов с id
+        const messagesWithIds = Object.entries(loadedMessages).map(([id, message]) => ({
+          id,
+          ...message
+        }));
+        setMessages(messagesWithIds);
+      } else {
+        setMessages([]);
+      }
     });
 
     return () => unsubscribeMessages();
-  }, [currentChat]);
+  }, [lastChatId]);
 
   const openChat = (chat, id) => {
     if (chat) {
+      
       setCurrentChat(chat);
-      console.log("current chat", chat);
-      console.log("messages", chat.messages);
       dispatch(setLastChat(id));
     }
   };
 
   const sendMessage = async () => {
-    console.log("sending message...");
-    if (messageInput.trim()) {
-      console.log("lastChatId", lastChatId);
-      await push(ref(db, "chats/" + lastChatId + "/messages"), {
-        sender: username,
-        text: messageInput,
-        timestamp: Date.now(),
-      });
-      setMessageInput("");
+    if (messageInput.trim() && lastChatId) {
+      try {
+        await push(ref(db, `chats/${lastChatId}/messages`), {
+          sender: username,
+          text: messageInput,
+          timestamp: Date.now(),
+        });
+        setMessageInput("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
+  // Прокрутка к последнему сообщению
   useEffect(() => {
-    // Прокрутка к последнему сообщению при изменении messages
-    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
-    const [menuVisible, setMenuVisible] = useState(false);
-  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-
-  const handleContextMenu = (event) => {
-    event.preventDefault(); // Предотвращаем стандартное меню
+  // Обработчик контекстного меню
+  const handleContextMenu = (event, message) => {
+    event.preventDefault();
     setMenuPosition({ x: event.clientX, y: event.clientY });
     setMenuVisible(true);
-    console.log('Правая кнопка нажата:', event.target);
+    setMenuTarget(message);
   };
 
-  const handleMenuItemSelect = (value) => {
-    console.log('Выбран пункт:', value);
+  // Удаление сообщения
+  const handleMenuItemSelect = async (value) => {
     setMenuVisible(false);
+    if (value === "delete" && menuTarget.id && (currentChat.owner === username || menuTarget.sender == username)) {
+      try {
+        await remove(ref(db, `chats/${lastChatId}/messages/${menuTarget.id}`));
+        console.log("Message deleted successfully");
+      } catch (error) {
+        console.error("Error deleting message:", error);
+      }
+    }
+    else if (value === "copy") {
+      navigator.clipboard.writeText('hi');
+    }
   };
 
+  // Закрытие меню при клике вне его
   const handleOutsideClick = (event) => {
-    if (menuVisible && !event.target.closest('.context-menu')) {
+    if (menuVisible && !event.target.closest(".context-menu")) {
       setMenuVisible(false);
     }
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (menuVisible) {
-      document.addEventListener('click', handleOutsideClick);
+      document.addEventListener("click", handleOutsideClick);
     }
-
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, [menuVisible]);
+
   return (
     <div className="chat">
       <ChatsList
@@ -131,45 +137,50 @@ function Chat() {
             <img className="opn-settings__img" src={humburger} alt="" />
           </button>
         </div>
-       < ContextMenu
-        onSelect={handleMenuItemSelect}
-        visible={menuVisible}
-        position={menuPosition}
-        className="context-menu"
-      />
+        
+        <ContextMenu
+          onSelect={handleMenuItemSelect}
+          visible={menuVisible}
+          position={menuPosition}
+          className="context-menu"
+        />
+        
         <div className="chat-messages scrollable">
-          {currentChat
-            ? messages
-              ? Object.values(messages).map((msg, index, arr) => {
-                  const currentDate = new Date(msg.timestamp).toDateString();
-                  const prevDate =
-                    index > 0
-                      ? new Date(arr[index - 1].timestamp).toDateString()
-                      : null;
+          {currentChat ? (
+            messages.length > 0 ? (
+              messages.map((msg, index, arr) => {
+                const currentDate = new Date(msg.timestamp).toDateString();
+                const prevDate = index > 0
+                  ? new Date(arr[index - 1].timestamp).toDateString()
+                  : null;
+                const isNewDay = currentDate !== prevDate;
 
-                  const isNewDay = currentDate !== prevDate;
-
-                  return (
-                    <Message
-                      key={msg.timestamp}
-                      msg={msg}
-                      username={username}
-                      isNewDay={isNewDay}
-                       onContextMenu={handleContextMenu}
-                    ></Message>
-                  );
-                })
-              : "empty"
-            : "empty"}
-          {/* Элемент-заглушка для скролла в конец */}
+                return (
+                  <Message
+                    key={msg.id}
+                    id={msg.id}
+                    msg={msg}
+                    username={username}
+                    isNewDay={isNewDay}
+                    handleContextMenu={(e) => handleContextMenu(e, msg)}
+                  />
+                );
+              })
+            ) : (
+              <div className="empty-messages">No messages yet</div>
+            )
+          ) : (
+            <div className="empty-messages">Select a chat to start messaging</div>
+          )}
           <div ref={messagesEndRef} />
         </div>
+        
         <div className="chat-input-area">
           <MyTextarea
             value={messageInput}
             setValue={setMessageInput}
             action={sendMessage}
-          ></MyTextarea>
+          />
         </div>
       </div>
     </div>

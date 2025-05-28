@@ -1,0 +1,27 @@
+.ContextMenu {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid vat(--dark-accent);
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+    width: 150px;
+}
+
+.MenuItem {
+    display: flex;
+    padding: 7px;
+    color: var(--dark-font);
+    text-align: left;
+    column-gap: 7px;
+}
+
+.MenuItem:hover {
+    background-color: #f1f3f4;
+}
+
+.MenuItem:active {
+    background-color: #D8D7DC;
+}

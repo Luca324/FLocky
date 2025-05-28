@@ -1,38 +1,42 @@
 import { useEffect, useState, useRef } from "react";
+import classes from "./ContextMenu.module.css";
+import CopyImg from "../../../img/Copy.svg"
+import DeleteImg from "../../../img/delete.svg"
 
-
-function ContextMenu(props) {
-  const { onSelect, visible, position } = props;
-
+function ContextMenu({ onSelect, visible, targetId, position, ...props }) {
   const handleMenuItemClick = (value) => {
-    onSelect(value); // Вызываем функцию, переданную из родительского компонента
+    onSelect(value, targetId); // Вызываем функцию, переданную из родительского компонента
     // Можно добавлять и другую логику здесь
+    
   };
 
   return (
     visible && (
       <div
+        className={classes.ContextMenu}
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: position.x,
           top: position.y,
-          backgroundColor: 'lightgray',
-          padding: '10px',
-          border: '1px solid black',
-          zIndex: 1000, // Добавляем z-index для отображения поверх других элементов
+          zIndex: 1000,
         }}
       >
-        <ul>
-          <li>
-            <a onClick={() => handleMenuItemClick('copy')}>Копировать</a>
-          </li>
-          <li>
-            <a onClick={() => handleMenuItemClick('paste')}>Вставить</a>
-          </li>
-          <li>
-            <a onClick={() => handleMenuItemClick('delete')}>Удалить</a>
-          </li>
-        </ul>
+        <button
+          className={classes.MenuItem}
+          onClick={() => handleMenuItemClick("copy")}
+        >
+          <img src={CopyImg} alt="" />
+          <span>Копировать</span>
+        </button>
+
+        <button
+          className={classes.MenuItem}
+          onClick={() => handleMenuItemClick("delete")}
+        >
+          <img src={DeleteImg} alt="" />
+          <span>Удалить</span>
+          
+        </button>
       </div>
     )
   );
