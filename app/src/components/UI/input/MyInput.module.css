@@ -1,11 +1,21 @@
-.myInput {
-    padding: 10px;
+.myInputWrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
     border: var(--dark-accent) 2px solid;
     background-color: #fff;
     width: 100%;
-box-sizing: border-box;
+    box-sizing: border-box;
     border-radius: var(--border-radius);
     padding: 4px 15px;
+}
+
+.myInput {
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding:0;
 }
 
 .myInput:focus {

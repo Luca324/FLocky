@@ -9,10 +9,13 @@ import defaultChatImg from "../../../img/default-chat-img.png";
 import MyButton from "../button/MyButton";
 import MyInput from "../input/MyInput";
 import logOutImg from "../../../img/Log out.svg";
-import searchImg from "../../../img/Search.svg"
+import searchImg from "../../../img/Search.svg";
 import defaultProfileImg from "../../../img/default-profile-img.png";
+import { fuzzyFilter } from "../../../utils/fuzzyFilter";
+import cross from "../../../img/cross.svg";
 
 function ChatsList({ username, openChat, dispatch, navigate }) {
+  const [currentChats, setCurrentChats] = useState([]);
   const [chats, setChats] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [newChatInput, setNewChatInput] = useState("");
@@ -25,6 +28,7 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
       console.log("chatsData", chatsData);
       const loadedChats = chatsData ? Object.values(chatsData) : [];
       setChats(loadedChats);
+      setCurrentChats(loadedChats);
     });
 
     return () => {
@@ -46,9 +50,8 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
       openChat(chatId);
     }
   };
-  
+
   const handleOpenChat = (id) => {
-    console.log("opening chat", id);
     const chat = chats.find((c) => c.chatId === id);
     openChat(chat, id);
   };
@@ -58,9 +61,28 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
     navigate("/login");
   };
 
-  const handleSearch = () => {
+  useEffect(() => {
+    searchForChats();
+  }, [searchInput]); // поиск осуществляется сразу при изменении searchInput
 
-  }
+  const searchForChats = () => {
+    if (searchInput.trim()) {
+      const searchResult = fuzzyFilter(
+        Object.values(chats),
+        searchInput.trim(),
+        6
+      );
+      setCurrentChats(searchResult);
+    } else {
+      console.log("empty");
+      clearSearch();
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchInput('')
+    setCurrentChats(chats);
+  };
 
   return (
     <div className="chats__container">
@@ -75,14 +97,25 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
           </button>
         </div>
         <div className="search-wrapper">
-          <MyInput 
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search for polls"
-          ></MyInput>
-          <button className="search" onClick={handleSearch}><img src={searchImg} alt="" /></button>
+          <MyInput
+            value={searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+            }}
+            placeholder="Search for polls"
+          >
+            <button
+              className="clear-input"
+              onClick={() => {
+                console.log("cleaning search...");
+                clearSearch();
+              }}
+            >
+              <img className="clear-input-img" src={cross} alt="" />
+            </button>
+          </MyInput>
         </div>
-        {chats.map((chat, index) => (
+        {currentChats.map((chat, index) => (
           <>
             <input
               type="radio"
