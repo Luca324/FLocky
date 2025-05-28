@@ -25,7 +25,7 @@ function Chat() {
   // Состояние контекстного меню
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-  const [menuTarget, setMenuTarget] = useState(null);
+  const [menuTargetMessage, setmenuTargetMessage] = useState(null);
 
   // Подписка на сообщения текущего чата
   useEffect(() => {
@@ -82,22 +82,22 @@ function Chat() {
     event.preventDefault();
     setMenuPosition({ x: event.clientX, y: event.clientY });
     setMenuVisible(true);
-    setMenuTarget(message);
+    setmenuTargetMessage(message);
   };
 
   // Удаление сообщения
   const handleMenuItemSelect = async (value) => {
     setMenuVisible(false);
-    if (value === "delete" && menuTarget.id && (currentChat.owner === username || menuTarget.sender == username)) {
+    if (value === "delete" && menuTargetMessage.id && (currentChat.owner === username || menuTargetMessage.sender == username)) {
       try {
-        await remove(ref(db, `chats/${lastChatId}/messages/${menuTarget.id}`));
+        await remove(ref(db, `chats/${lastChatId}/messages/${menuTargetMessage.id}`));
         console.log("Message deleted successfully");
       } catch (error) {
         console.error("Error deleting message:", error);
       }
     }
     else if (value === "copy") {
-      navigator.clipboard.writeText('hi');
+      navigator.clipboard.writeText(menuTargetMessage.text);
     }
   };
 
