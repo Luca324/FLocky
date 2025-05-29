@@ -4,13 +4,13 @@
   "private": true,
   "description": "Realtime chat app with Electron and React",
   "author": "Tatyana Mosolova <tanya.mosol@yandex.ru>",
-  "main": "electron.js",
+  "main": "main.js",
   "homepage": "./",
   "productName": "Flocky",
   "scripts": {
     "start": "set PORT=3006 && react-scripts start",
     "build": "react-scripts build",
-    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && electron .\"",
+    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && cross-env NODE_ENV=development electron .\"",
     "preelectron:build": "npm run build",
     "electron:build": "npm run preelectron:build && electron-builder"
   },
@@ -20,6 +20,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "electron-is-dev": "^2.0.0",
     "firebase": "^11.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,9 +32,9 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
     "electron": "^36.3.1",
     "electron-builder": "^26.0.12",
-    "electron-is-dev": "^3.0.1",
     "wait-on": "^8.0.3"
   },
   "build": {

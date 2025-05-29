@@ -1,6 +1,9 @@
 console.log("Creating main window...");
+const electron = require('electron');
 
-const { app, BrowserWindow } = require('electron')
+console.log(electron);
+console.log(Object.keys(electron));
+const { app, BrowserWindow } = electron;
 const path = require('path')
 const isDev = require('electron-is-dev')
 let mainWindow
