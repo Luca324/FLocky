@@ -46,7 +46,7 @@
     },
     "files": [
       "build/**/*",
-      "electron.js",
+      "main.js",
       "node_modules/**/*",
       "package.json"
     ],
