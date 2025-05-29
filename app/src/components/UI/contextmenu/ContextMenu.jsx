@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from "react";
 import classes from "./ContextMenu.module.css";
 import CopyImg from "../../../img/Copy.svg"
 import DeleteImg from "../../../img/delete.svg"

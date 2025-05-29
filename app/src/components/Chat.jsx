@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
 import { ref, push, onValue, remove } from "firebase/database";
 import { useNavigate } from "react-router-dom";
-import { logout, setLastChat } from "../store/authSlice";
+import {  setLastChat } from "../store/authSlice";
 import Message from "./UI/message/Message";
 import defaultChatImg from "../img/default-chat-img.png";
 import humburger from "../img/humburger.svg";
@@ -88,7 +88,7 @@ function Chat() {
   // Удаление сообщения
   const handleMenuItemSelect = async (value) => {
     setMenuVisible(false);
-    if (value === "delete" && menuTargetMessage.id && (currentChat.owner === username || menuTargetMessage.sender == username)) {
+    if (value === "delete" && menuTargetMessage.id && (currentChat.owner === username || menuTargetMessage.sender === username)) {
       try {
         await remove(ref(db, `chats/${lastChatId}/messages/${menuTargetMessage.id}`));
         console.log("Message deleted successfully");

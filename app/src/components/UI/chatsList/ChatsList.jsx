@@ -2,14 +2,13 @@ import "./ChatsList.module.css";
 
 import { useEffect, useState, useRef } from "react";
 import { db } from "../../../firebase";
-import { ref, push, onValue, set } from "firebase/database";
-import { logout, setLastChat } from "../../../store/authSlice";
+import { ref, onValue, set } from "firebase/database";
+import { logout } from "../../../store/authSlice";
 import defaultChatImg from "../../../img/default-chat-img.png";
 
 import MyButton from "../button/MyButton";
 import MyInput from "../input/MyInput";
 import logOutImg from "../../../img/Log out.svg";
-import searchImg from "../../../img/Search.svg";
 import defaultProfileImg from "../../../img/default-profile-img.png";
 import { fuzzyFilter } from "../../../utils/fuzzyFilter";
 import cross from "../../../img/cross.svg";
