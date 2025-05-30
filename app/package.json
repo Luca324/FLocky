@@ -10,9 +10,8 @@
   "scripts": {
     "start": "set PORT=3006 && react-scripts start",
     "build": "react-scripts build",
-    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && cross-env NODE_ENV=development electron .\"",
-    "preelectron:build": "npm run build",
-    "electron:build": "npm run preelectron:build && electron-builder"
+    "electron:dev": "concurrently -k \"npm start\" \"wait-on http://localhost:3006 && cross-env NODE_ENV=development electron main.js\"",
+    "electron:build": "npm run build && electron-builder"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -40,17 +39,14 @@
   "build": {
     "appId": "com.flocky.chat",
     "productName": "Flocky",
-    "directories": {
-      "output": "dist",
-      "buildResources": "assets"
-    },
-    "files": [
+        "files": [
       "build/**/*",
       "main.js",
-      "node_modules/**/*",
       "package.json"
     ],
-    "asar": true
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "eslintConfig": {
     "extends": [

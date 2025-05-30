@@ -11,12 +11,11 @@ import MyInput from "../input/MyInput";
 import logOutImg from "../../../img/Log out.svg";
 import defaultProfileImg from "../../../img/default-profile-img.png";
 import { fuzzyFilter } from "../../../utils/fuzzyFilter";
-import cross from "../../../img/cross.svg";
+import SearchInput from "../searchInput/SearchInput";
 
 function ChatsList({ username, openChat, dispatch, navigate }) {
   const [currentChats, setCurrentChats] = useState([]);
   const [chats, setChats] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
   const [newChatInput, setNewChatInput] = useState("");
 
   useEffect(() => {
@@ -60,28 +59,6 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
     navigate("/login");
   };
 
-  useEffect(() => {
-    searchForChats();
-  }, [searchInput]); // поиск осуществляется сразу при изменении searchInput
-
-  const searchForChats = () => {
-    if (searchInput.trim()) {
-      const searchResult = fuzzyFilter(
-        Object.values(chats),
-        searchInput.trim(),
-        6
-      );
-      setCurrentChats(searchResult);
-    } else {
-      console.log("empty");
-      clearSearch();
-    }
-  };
-
-  const clearSearch = () => {
-    setSearchInput('')
-    setCurrentChats(chats);
-  };
 
   return (
     <div className="chats__container">
@@ -96,23 +73,12 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
           </button>
         </div>
         <div className="search-wrapper">
-          <MyInput
-            value={searchInput}
-            onChange={(e) => {
-              setSearchInput(e.target.value);
-            }}
-            placeholder="Search for polls"
-          >
-            <button
-              className="clear-input"
-              onClick={() => {
-                console.log("cleaning search...");
-                clearSearch();
-              }}
-            >
-              <img className="clear-input-img" src={cross} alt="" />
-            </button>
-          </MyInput>
+          <SearchInput
+          searchData={Object.values(chats)}
+          showResult={setCurrentChats}
+          placeholder="Поиск опросов"
+          getValForFilter={(chat) => chat.name}
+          ></SearchInput>
         </div>
         {currentChats.map((chat, index) => (
           <>

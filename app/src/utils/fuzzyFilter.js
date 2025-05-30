@@ -1,7 +1,7 @@
-export function fuzzyFilter(stringsArray, substring, sensitivity = 0) {
+export function fuzzyFilter(stringsArray, substring, getValue = (el) => el, sensitivity = 0) {
 
-  return stringsArray.filter(chat => {
-    const string = chat.name
+  const result = stringsArray.filter(el => {
+    const string = getValue(el)
     // Проверяем, содержит ли строка подстроку, учитывая чувствительность
     if (string.toLowerCase().includes(substring.toLowerCase())) {
       return true; // Если содержит, возвращаем true
@@ -11,6 +11,8 @@ export function fuzzyFilter(stringsArray, substring, sensitivity = 0) {
       return distance <= sensitivity; // Если расстояние меньше или равно чувствительности, возвращаем true
     }
   });
+  console.log('inner search result:', result)
+  return result
 }
 
 // Функция для вычисления расстояния Левенштейна (для приблизительного поиска)

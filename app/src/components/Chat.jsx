@@ -11,6 +11,7 @@ import humburger from "../img/humburger.svg";
 import MyTextarea from "./UI/textarea/MyTextarea";
 import ChatsList from "./UI/chatsList/ChatsList";
 import ContextMenu from "./UI/contextmenu/ContextMenu";
+import SearchInput from "./UI/searchInput/SearchInput";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -20,6 +21,7 @@ function Chat() {
 
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [currentMessages, setCurrentMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
   // Состояние контекстного меню
@@ -41,8 +43,10 @@ function Chat() {
           ...message
         }));
         setMessages(messagesWithIds);
+        setCurrentMessages(messagesWithIds);
       } else {
         setMessages([]);
+        setCurrentMessages([]);
       }
     });
 
@@ -74,8 +78,8 @@ function Chat() {
 
   // Прокрутка к последнему сообщению
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [currentMessages]);
 
   // Обработчик контекстного меню
   const handleContextMenu = (event, message) => {
@@ -133,6 +137,12 @@ function Chat() {
               {currentChat ? currentChat.name : "Select a chat"}
             </span>
           </div>
+          <SearchInput
+          searchData={messages}
+          showResult={setCurrentMessages}
+          placeholder="Поиск сообщений"
+          getValForFilter={(el) => el.text}
+          ></SearchInput>
           <button className="opn-settings">
             <img className="opn-settings__img" src={humburger} alt="" />
           </button>
@@ -147,8 +157,8 @@ function Chat() {
         
         <div className="chat-messages scrollable">
           {currentChat ? (
-            messages.length > 0 ? (
-              messages.map((msg, index, arr) => {
+            currentMessages.length > 0 ? (
+              currentMessages.map((msg, index, arr) => {
                 const currentDate = new Date(msg.timestamp).toDateString();
                 const prevDate = index > 0
                   ? new Date(arr[index - 1].timestamp).toDateString()
