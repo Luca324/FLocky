@@ -200,7 +200,7 @@ input[type="radio"]:checked + label {
     border-top-left-radius: var(--border-radius);
 }
 
-.chat-header__left {
+.chat-header__left, .chat-header__right {
     display: flex;
     column-gap: 6px;
     justify-content: flex-start;

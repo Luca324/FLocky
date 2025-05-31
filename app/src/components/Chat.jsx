@@ -137,6 +137,8 @@ function Chat() {
               {currentChat ? currentChat.name : "Select a chat"}
             </span>
           </div>
+          <div className="chat-header__right">
+
           <SearchInput
           searchData={messages}
           showResult={setCurrentMessages}
@@ -146,6 +148,7 @@ function Chat() {
           <button className="opn-settings">
             <img className="opn-settings__img" src={humburger} alt="" />
           </button>
+          </div>
         </div>
         
         <ContextMenu
