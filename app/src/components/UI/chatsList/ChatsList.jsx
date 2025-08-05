@@ -1,17 +1,17 @@
 import "./ChatsList.module.css";
 
 import { useEffect, useState, useRef } from "react";
-import { db } from "../../../firebase.js";
+import { db } from "@/firebase.js";
 import { ref, onValue, set } from "firebase/database";
-import { logout } from "../../../store/authSlice.js";
-import defaultChatImg from "../../../img/default-chat-img.png";
+import { logout } from "@/store/authSlice.js";
+import defaultChatImg from "@/img/default-chat-img.png";
 
-import MyButton from "../button/MyButton.jsx";
-import MyInput from "../input/MyInput.jsx";
-import logOutImg from "../../../img/Log out.svg";
-import defaultProfileImg from "../../../img/default-profile-img.png";
-import { fuzzyFilter } from "../../../utils/fuzzyFilter.js";
-import SearchInput from "../searchInput/SearchInput.jsx";
+import MyButton from "@/components/UI/button/MyButton.jsx";
+import MyInput from "@/components/UI/input/MyInput.jsx";
+import logOutImg from "@/img/Log out.svg";
+import defaultProfileImg from "@/img/default-profile-img.png";
+import { fuzzyFilter } from "@/utils/fuzzyFilter.js";
+import SearchInput from "@/components/UI/searchInput/SearchInput.jsx";
 
 function ChatsList({ username, openChat, dispatch, navigate }) {
   const [currentChats, setCurrentChats] = useState([]);
@@ -23,7 +23,6 @@ function ChatsList({ username, openChat, dispatch, navigate }) {
 
     const unsubscribeChats = onValue(chatsRef, (snapshot) => {
       const chatsData = snapshot.val();
-      console.log("chatsData", chatsData);
       const loadedChats = chatsData ? Object.values(chatsData) : [];
       setChats(loadedChats);
       setCurrentChats(loadedChats);

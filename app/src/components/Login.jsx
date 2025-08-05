@@ -1,13 +1,13 @@
 // components/Login.jsx
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/authSlice.js";
+import { login } from "@/store/authSlice.js";
 import { useState } from "react";
-import MyButton from "./UI/button/MyButton.jsx";
-import MyLink from "./UI/link/MyLink.jsx";
-import MyInput from "./UI/input/MyInput.jsx";
-import { loginWithEmail } from "../firebase.js";
-import "../styles/Login.css";
+import MyButton from "@/components/UI/button/MyButton.jsx";
+import MyLink from "@/components/UI/link/MyLink.jsx";
+import MyInput from "@/components/UI/input/MyInput.jsx";
+import { loginWithEmail } from "@/firebase.js";
+import "@/styles/Login.css";
 
 import {
   Message,

@@ -1,17 +1,17 @@
-import "../styles/Chat.css";
+import "@/styles/Chat.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { db } from "../firebase.js";
+import { db } from "@/firebase.js";
 import { ref, push, onValue, remove } from "firebase/database";
 import { useNavigate } from "react-router-dom";
-import {  setLastChat } from "../store/authSlice.js";
-import Message from "./UI/message/Message.jsx";
-import defaultChatImg from "../img/default-chat-img.png";
-import humburger from "../img/humburger.svg";
-import MyTextarea from "./UI/textarea/MyTextarea.jsx";
-import ChatsList from "./UI/chatsList/ChatsList.jsx";
-import ContextMenu from "./UI/contextmenu/ContextMenu.jsx";
-import SearchInput from "./UI/searchInput/SearchInput.jsx";
+import {  setLastChat } from "@/store/authSlice.js";
+import Message from "@/components/UI/message/Message.jsx";
+import defaultChatImg from "@/img/default-chat-img.png";
+import humburger from "@/img/humburger.svg";
+import MyTextarea from "@/components/UI/textarea/MyTextarea.jsx";
+import ChatsList from "@/components/UI/chatsList/ChatsList.jsx";
+import ContextMenu from "@/components/UI/contextmenu/ContextMenu.jsx";
+import SearchInput from "@/components/UI/searchInput/SearchInput.jsx";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -95,7 +95,6 @@ function Chat() {
     if (value === "delete" && menuTargetMessage.id && (currentChat.owner === username || menuTargetMessage.sender === username)) {
       try {
         await remove(ref(db, `chats/${lastChatId}/messages/${menuTargetMessage.id}`));
-        console.log("Message deleted successfully");
       } catch (error) {
         console.error("Error deleting message:", error);
       }

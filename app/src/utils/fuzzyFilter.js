@@ -11,7 +11,6 @@ export function fuzzyFilter(stringsArray, substring, getValue = (el) => el, sens
       return distance <= sensitivity; // Если расстояние меньше или равно чувствительности, возвращаем true
     }
   });
-  console.log('inner search result:', result)
   return result
 }
 

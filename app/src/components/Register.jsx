@@ -1,13 +1,13 @@
 // components/Register.jsx
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/authSlice.js";
+import { login } from "@/store/authSlice.js";
 import { useState } from "react";
-import MyLink from "./UI/link/MyLink.jsx";
-import MyButton from "./UI/button/MyButton.jsx";
-import MyInput from "./UI/input/MyInput.jsx";
-import { registerWithEmail } from "../firebase.js";
-import "../styles/Login.css";
+import MyLink from "@/components/UI/link/MyLink.jsx";
+import MyButton from "@/components/UI/button/MyButton.jsx";
+import MyInput from "@/components/UI/input/MyInput.jsx";
+import { registerWithEmail } from "@/firebase.js";
+import "@/styles/Login.css";
 import {
   Message,
   useToaster
@@ -27,7 +27,6 @@ function Register() {
     registerWithEmail(email, password, username)
       .then((userCredential) => {
         dispatch(login(userCredential.user.displayName));
-        console.log(userCredential);
         navigate("/");
       })
       .catch((e) => {

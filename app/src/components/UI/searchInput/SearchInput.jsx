@@ -1,7 +1,7 @@
-import MyInput from "../input/MyInput";
-import cross from "../../../img/cross.svg";
+import MyInput from "@/components/UI/input/MyInput.jsx";
+import cross from "@/img/cross.svg";
 import { useEffect, useState, useRef } from "react";
-import { fuzzyFilter } from "../../../utils/fuzzyFilter";
+import { fuzzyFilter } from "@/utils/fuzzyFilter.js";
 
 function SearchInput({ searchData, showResult,getValForFilter,...props }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,14 +11,10 @@ function SearchInput({ searchData, showResult,getValForFilter,...props }) {
   }, [searchQuery]); // поиск осуществляется сразу при изменении searchQuery
 
   const searchForChats = () => {
-    console.log('searchQuery', searchQuery)
-    console.log('searchData',searchData)
     if (searchQuery.trim()) {
       const searchResult = fuzzyFilter(searchData, searchQuery.trim(), getValForFilter, 0);
-      console.log('searchResult',searchResult)
       showResult(searchResult);
     } else {
-      console.log("empty");
       clearSearch();
     }
   };
@@ -39,7 +35,6 @@ function SearchInput({ searchData, showResult,getValForFilter,...props }) {
       <button
         className="clear-input"
         onClick={() => {
-          console.log("cleaning search...");
             clearSearch();
         }}
       >

@@ -1,6 +1,6 @@
-import classes from "./ContextMenu.module.css";
-import CopyImg from "../../../img/Copy.svg"
-import DeleteImg from "../../../img/delete.svg"
+import "./ContextMenu.module.css";
+import CopyImg from "@/img/Copy.svg"
+import DeleteImg from "@/img/delete.svg"
 
 function ContextMenu({ onSelect, visible, targetId, position, ...props }) {
   const handleMenuItemClick = (value) => {
