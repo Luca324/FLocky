@@ -1,17 +1,17 @@
 import "./ChatsList.module.css";
 
 import { useEffect, useState, useRef } from "react";
-import { db } from "../../../firebase";
+import { db } from "../../../firebase.js";
 import { ref, onValue, set } from "firebase/database";
-import { logout } from "../../../store/authSlice";
+import { logout } from "../../../store/authSlice.js";
 import defaultChatImg from "../../../img/default-chat-img.png";
 
-import MyButton from "../button/MyButton";
-import MyInput from "../input/MyInput";
+import MyButton from "../button/MyButton.jsx";
+import MyInput from "../input/MyInput.jsx";
 import logOutImg from "../../../img/Log out.svg";
 import defaultProfileImg from "../../../img/default-profile-img.png";
-import { fuzzyFilter } from "../../../utils/fuzzyFilter";
-import SearchInput from "../searchInput/SearchInput";
+import { fuzzyFilter } from "../../../utils/fuzzyFilter.js";
+import SearchInput from "../searchInput/SearchInput.jsx";
 
 function ChatsList({ username, openChat, dispatch, navigate }) {
   const [currentChats, setCurrentChats] = useState([]);

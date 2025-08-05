@@ -1,17 +1,17 @@
 import "../styles/Chat.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { db } from "../firebase";
+import { db } from "../firebase.js";
 import { ref, push, onValue, remove } from "firebase/database";
 import { useNavigate } from "react-router-dom";
-import {  setLastChat } from "../store/authSlice";
-import Message from "./UI/message/Message";
+import {  setLastChat } from "../store/authSlice.js";
+import Message from "./UI/message/Message.jsx";
 import defaultChatImg from "../img/default-chat-img.png";
 import humburger from "../img/humburger.svg";
-import MyTextarea from "./UI/textarea/MyTextarea";
-import ChatsList from "./UI/chatsList/ChatsList";
-import ContextMenu from "./UI/contextmenu/ContextMenu";
-import SearchInput from "./UI/searchInput/SearchInput";
+import MyTextarea from "./UI/textarea/MyTextarea.jsx";
+import ChatsList from "./UI/chatsList/ChatsList.jsx";
+import ContextMenu from "./UI/contextmenu/ContextMenu.jsx";
+import SearchInput from "./UI/searchInput/SearchInput.jsx";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");

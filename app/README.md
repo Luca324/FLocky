@@ -1,12 +1,26 @@
 # FLocky - Realtime Chat Web App
 
-This project is a realtime chat application built with React and Firebase.
+This project is a realtime chat application built with React, Vite and Firebase.
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env` file in the root directory and add your Firebase configuration:
+```bash
+cp env.example .env
+```
+
+3. Update the `.env` file with your Firebase project credentials.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,30 +28,21 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `dist` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run preview`
 
-### `npm run eject`
+Locally preview the production build.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### `npm run lint`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Runs ESLint to check for code quality issues.
 
 ## Features
 
@@ -48,32 +53,29 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 - Responsive web interface
 - Message deletion with context menu
 
+## Tech Stack
+
+- **Frontend**: React 18.2.0, React Router DOM 7.6.0
+- **Build Tool**: Vite 5.2.0
+- **State Management**: Redux Toolkit 2.8.2, React Redux 9.2.0
+- **Backend**: Firebase 11.8.1 (Auth + Realtime Database)
+- **UI Library**: RSuite 5.81.0 for notifications
+
+## Environment Variables
+
+This project uses Vite environment variables. All environment variables must be prefixed with `VITE_` to be accessible in the client-side code.
+
+Required Firebase environment variables:
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_DATABASE_URL`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- `VITE_FIREBASE_APP_ID`
+
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To learn more about Vite, check out the [Vite documentation](https://vitejs.dev/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
