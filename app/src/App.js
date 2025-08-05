@@ -1,4 +1,4 @@
-// App.js
+// App.js - Main React component for FLocky web chat application
 import Chat from './components/Chat';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/App.css';
