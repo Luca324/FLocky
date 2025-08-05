@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/store/store.js';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/authSlice.js";
+import SidePanel from './components/SidePanel/SidePanel.jsx';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/sidepanel" element={<SidePanel />} />
           </Routes>
         </HashRouter>
       </div>

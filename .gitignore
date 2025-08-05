@@ -20,3 +20,4 @@ app/.vscode
 app/.env
 app/.env.local
 app/.env.*.local
+/node_modules
