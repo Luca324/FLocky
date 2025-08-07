@@ -12,6 +12,7 @@ import MyTextarea from "@/components/UI/textarea/MyTextarea.jsx";
 import ChatsList from "@/components/UI/chatsList/ChatsList.jsx";
 import ContextMenu from "@/components/UI/contextmenu/ContextMenu.jsx";
 import SearchInput from "@/components/UI/searchInput/SearchInput.jsx";
+import { copyToClipboard } from "@/utils/clipboard.js";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -100,7 +101,7 @@ function Chat() {
       }
     }
     else if (value === "copy") {
-      navigator.clipboard.writeText(menuTargetMessage.text);
+      await copyToClipboard(menuTargetMessage.text);
     }
   };
 
