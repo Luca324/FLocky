@@ -1,4 +1,4 @@
-import "./ContextMenu.module.css";
+import classes from "./ContextMenu.module.css";
 import CopyImg from "@/img/Copy.svg"
 import DeleteImg from "@/img/delete.svg"
 
