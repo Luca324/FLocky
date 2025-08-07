@@ -12,7 +12,6 @@ import MyTextarea from "@/components/UI/textarea/MyTextarea.jsx";
 import ChatsList from "@/components/UI/chatsList/ChatsList.jsx";
 import ContextMenu from "@/components/UI/contextmenu/ContextMenu.jsx";
 import SearchInput from "@/components/UI/searchInput/SearchInput.jsx";
-import SidePanel from "@/components/UI/sidePanel/SidePanel.jsx";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -29,9 +28,6 @@ function Chat() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const [menuTargetMessage, setmenuTargetMessage] = useState(null);
-
-  // Состояние боковой панели
-  const [sidePanelOpen, setSidePanelOpen] = useState(false);
 
   // Подписка на сообщения текущего чата
   useEffect(() => {
@@ -115,16 +111,6 @@ function Chat() {
     }
   };
 
-  // Обработчик открытия боковой панели
-  const handleOpenSidePanel = () => {
-    setSidePanelOpen(true);
-  };
-
-  // Обработчик закрытия боковой панели
-  const handleCloseSidePanel = () => {
-    setSidePanelOpen(false);
-  };
-
   useEffect(() => {
     if (menuVisible) {
       document.addEventListener("click", handleOutsideClick);
@@ -158,7 +144,7 @@ function Chat() {
           placeholder="Поиск сообщений"
           getValForFilter={(el) => el.text}
           ></SearchInput>
-          <button className="opn-settings" onClick={handleOpenSidePanel}>
+          <button className="opn-settings">
             <img className="opn-settings__img" src={humburger} alt="" />
           </button>
           </div>
@@ -209,14 +195,6 @@ function Chat() {
           />
         </div>
       </div>
-
-      {/* Боковая панель */}
-      <SidePanel
-        isOpen={sidePanelOpen}
-        onClose={handleCloseSidePanel}
-        username={username}
-        currentChat={currentChat}
-      />
     </div>
   );
 }
